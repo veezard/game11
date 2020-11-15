@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Game of 11</title>
+		<link rel="stylesheet" type="text/css" href="css.css">
+		<meta charset="utf-8"/>
+	</head>
+	
+	
+	<body>
+		
+		<div id="table">
+			
+			
+			
+			<div id="menu_text">Choose Your Face</div>
+			<div id="menu_marina"> <div class="avatar"  style="background-image: url(&quot;img/marina.jpg&quot;); "> </div></div>
+			<div id="menu_natasha"><div class="avatar"  style="background-image: url(&quot;img/natasha.jpg&quot;);"> </div></div>
+			<div id="menu_diana"><div class="avatar"  style="background-image: url(&quot;img/diana.jpg&quot;); "> </div></div>
+			
+			
+			<div id="playerL_lifted"></div>
+			<div id="playerL" >
+				<div class="avatar" id="Lavatar" style="background-image: url(&quot;&quot;); transform: translate(-200pt, 0pt);"></div>
+				<div class="card" id="L0" style="background-image: url(&quot;img/back.png&quot;); transform: translate(-105pt, 0pt);"></div>
+				<div class="card" id="L1" style="background-image: url(&quot;img/back.png&quot;); transform: translate(-35pt, 0pt);"></div>
+				<div class="card" id="L2" style="background-image: url(&quot;img/back.png&quot;); transform: translate(35pt, 0pt);"></div>
+				<div class="card" id="L3" style="background-image: url(&quot;img/back.png&quot;); transform: translate(105pt, 0pt);"></div>
+				<div class="separator" style="transform: translate(165pt, -45pt);"></div>
+				<div class="card" id="1pile" style="background-image: url(&quot;img/back.png&quot;); transform: translate(220pt, 0pt) ;"></div>
+			</div>
+			<div id="playerR_lifted"></div>
+			<div id="playerR">
+				<div class="avatar" id="Ravatar" style="background-image: url(&quot;&quot;); transform: translate(200pt, 0pt);"></div>
+				<div class="card" id ="R0" style="background-image: url(&quot;img/back.png&quot;); transform: translate(-105pt, 0pt);"></div>
+				<div class="card" id ="R1" style="background-image: url(&quot;img/back.png&quot;); transform: translate(-35pt, 0pt);"></div>
+				<div class="card" id ="R2" style="background-image: url(&quot;img/back.png&quot;); transform: translate(35pt, 0pt);"></div>
+				<div class="card" id ="R3" style="background-image: url(&quot;img/back.png&quot;); transform: translate(105pt, 0pt);"></div>
+				<div class="separator" style="transform: translate(-165pt, -45pt);"></div>
+				<div class="card" id ="2pile"style="background-image: url(&quot;img/back.png&quot;); transform: translate(-220pt, 0pt);"></div>
+				
+			</div>
+			<div id="playerC_lifted"></div>
+			<div id="playerC">
+				<div class="card" id= "C0" style="background-image: url(&quot;img/back.png&quot;); transform: translate(-105pt, 0pt);"></div>
+				<div class="card" id= "C1" style="background-image: url(&quot;img/back.png&quot;); transform: translate(-35pt, 0pt);"></div>
+				<div class="card" id= "C2" style="background-image: url(&quot;img/back.png&quot;); transform: translate(35pt, 0pt);"></div>
+				<div class="card" id= "C3" style="background-image: url(&quot;img/back.png&quot;); transform: translate(105pt, 0pt);"></div>
+				<div class="separator" style="transform: translate(150pt, -45pt);"></div>
+				<div class="card" id= "0pile" style="background-image: url(&quot;img/back.png&quot;); transform: translate(200pt, 0pt)  ;"></div>
+				<button id="play_button" class="button" style=" transform: translate(240pt, -30pt);">Play</button>
+				<button id="undo_button" class="button" style=" transform: translate(240pt, -30pt);">Undo</button>
+				<button id="score_button" class="button" style=" transform: translate(-340pt, -30pt);">Score</button>
+				
+			</div>
+			
+			
+			<div id="game_play"></div>
+			
+			<div id="deck">
+				<div class="card" style="background-image: url(&quot;img/back.png&quot;); transform: translate(0pt, 0pt);"></div>
+			</div>
+			
+			
+			
+		<div id="dim_out"></div><div id="dim_in"></div>
+			
+			<div id="score_board" style="display:none">
+			
+			
+			<div id="D_score_row" class="score_row">
+			<div id="D_score" class="score">0</div>
+			<div class="avatar"  style="background-image: url(&quot;img/diana.jpg&quot;); transform: translate(140pt, 0pt) "></div>
+			<div id="D_last_round_score" class="score" style=" transform: translate(210pt, 0pt)">0</div>
+			<div id="D_last_round" class="last_round"></div>
+			</div>
+			
+			<div id="M_score_row" class="score_row">
+			<div id="M_score" class="score">0</div>
+			<div class="avatar"  style="background-image: url(&quot;img/marina.jpg&quot;); transform: translate(140pt, 0pt) "></div>
+			<div id="M_last_round_score" class="score" style=" transform: translate(210pt, 0pt)">0</div>
+			<div id="M_last_round" class="last_round"></div>
+			</div>
+			
+			<div id="N_score_row" class="score_row">
+			<div id="N_score" class="score">0</div>
+			<div class="avatar"  style="background-image: url(&quot;img/natasha.jpg&quot;); transform: translate(140pt, 0pt) "></div>
+			<div id="N_last_round_score" class="score" style=" transform: translate(210pt, 0pt)">0</div>
+			<div id="N_last_round" class="last_round"></div>
+			</div>
+			
+			</div>
+		
+		
+		<div id="dealer" style="transform: translate(-200pt, 0pt); user-select:none;" ><div style=" margin: 0; position: absolute; top: 50%; left: 50%; 
+																				  transform: translate(-50%, -50%); ">DEALER</div></div>
+		
+		
+		 
+		
+		
+		
+		
+		<script src="display.js"></script>
+		<script src="interact.js"></script>
+		<script src="buttons.js"></script>
+	
+	</body>
+	
+	
+	
+	
+	
+</html>
+	

@@ -1,0 +1,328 @@
+:root {
+	--card_width: 60pt;
+	--card_height: 92pt;
+	--margin:10pt;
+	--card_pick_up_distance: 30pt;
+}
+
+
+html {
+  
+  }
+
+
+
+
+.button{
+	position:absolute;
+	
+	border: none;
+	
+	
+	padding: 20px;
+	text-align: center;
+	text-decoration: none;
+	display: inline;
+	font-size: 16px;
+	margin: 4pt 2pt;
+	border-radius: 50%;
+	
+
+}
+#play_button{
+
+	
+	background-color: #1B55A6;
+	box-shadow: 1pt 2pt 3pt 2pt #0F376F;
+	color: white;
+	display: none;
+	
+}
+
+
+#play_button:active {
+  background-color: #0C459A;
+  box-shadow: 1pt 2pt 0pt 2pt #0F376F;
+  transform: translate(10pt, 10pt);
+  color: black;
+}
+
+#undo_button{
+
+	
+	background-color: #712fc2;
+	box-shadow: 1pt 2pt 3pt 2pt #552d85;
+	color: white;
+	display: none;
+	
+}
+
+
+#undo_button:active {
+  background-color: #723eb0;
+  box-shadow: 1pt 2pt 0pt 2pt rgba( 113, 47, 194, 0.5);
+  transform: translate(10pt, 10pt);
+  color: black;
+}
+
+
+
+
+
+#score_button{
+
+	background-color: #f56942;
+	
+	box-shadow: 1pt 2pt 3pt 2pt #b05035;
+	color: white;
+	z-index:2;
+	
+}
+
+#score_button:active {
+  background-color: #c45e41;
+  box-shadow: 1pt 2pt 0pt 1pt #b05035;
+  transform: translate(10pt, 10pt);
+  color: black;
+}
+
+
+
+
+#dim_out{
+
+	position:absolute;
+	left: 180pt;
+	right: 180pt;
+	bottom: 0;
+	top: 80pt;
+	box-shadow: 0 0 0 1000pt rgba(0, 0, 0, .3); 
+	pointer-events: none;
+	
+}
+#dim_in{
+	position:absolute;
+	left: 180pt;
+	right: 180pt;
+	bottom: 0;
+	top: 80pt;
+	box-shadow: inset 0 0 30pt 20pt rgba(0, 0, 0, .3); 
+	pointer-events: none
+}
+
+#menu_text{
+	
+	position: absolute;
+	left: 0;
+	right: 0;
+	text-align:center;
+	top: 20%;
+	font-size:40pt;
+	color:white;
+
+}
+
+
+#menu_marina{
+	
+	position: absolute;
+	left: 30%;
+	top: 50%;
+	
+
+}
+#menu_natasha{
+	
+	position: absolute;
+	left: 50%;
+	top: 50%;
+	
+
+}
+#menu_diana{
+	
+	position: absolute;
+	left: 70%;
+	top: 50%;
+	
+
+}
+#table{
+	position:fixed;
+
+	background-color: #076324;
+	background-image: url("img/black-felt.png");
+	left:10pt;
+	top:10pt;
+	right: 10pt;
+	bottom: 10pt;
+	border-radius:10pt;
+	box-shadow: 5pt 5pt 8pt #888888;
+	
+	}
+#playerC{
+	position: absolute;
+	left:50%;
+	bottom: calc(var(--card_height)*0.5 + var(--margin));
+}
+
+#playerC_lifted{
+	position: absolute;
+	left:50%;
+	bottom: calc(var(--card_height)*0.5 + var(--margin) + var(--card_pick_up_distance));
+}
+
+#playerL{
+	position: absolute;
+	left: calc(var(--card_height)*0.5 + var(--margin));;
+	top: 50%;
+	transform: rotate(90deg);
+	transform-origin: 50% 50%;
+}
+
+#playerL_lifted{
+	position: absolute;
+	left: calc(var(--card_height)*0.5 + var(--margin) + var(--card_pick_up_distance));
+	top: 50%;
+	transform: rotate(90deg);
+	transform-origin: 50% 50%;
+}
+
+#playerR{
+	position: absolute;
+	top:50%;
+	right: calc(var(--card_height)*0.5 + var(--margin));;
+	transform: rotate(270deg);
+	transform-origin: 50% 50%;
+}
+
+#playerR_lifted{
+	position: absolute;
+	top:50%;
+	right: calc(var(--card_height)*0.5 + var(--margin) + var(--card_pick_up_distance));
+	transform: rotate(270deg);
+	transform-origin: 50% 50%;
+}
+
+
+#game_play{
+	position: absolute;
+	left: 50%;
+	top: 30%;
+}
+
+
+
+#deck{
+	position:absolute;
+	left:50%;
+	top:  calc(var(--card_width) + var(--margin));
+	transform: rotate(90deg);
+	transform-origin: 50% 50%;
+	display:none;
+}
+.avatar{
+	position:absolute;	
+	height:var(--card_height);
+	width:var(--card_height);
+	left:calc(var(--card_height)*-0.5);
+	top:calc(var(--card_height)*-0.5);
+	
+	overflow:hidden;
+
+	background-position:50% 50%;
+	background-repeat:no-repeat;
+	background-size:contain;
+	
+	
+}
+
+
+
+.card{
+position:absolute;
+width: var(--card_width);
+height:var(--card_height);
+left:calc(var(--card_width)*-0.5);
+top:calc(var(--card_height)*-0.5);
+border-radius:4pt;
+overflow:hidden;
+background-color:white;
+background-position:50% 50%;
+background-repeat:no-repeat;
+background-size:contain;
+/* box-shadow:0 1px 2px rgba(0,0,0,0.05);
+*/
+
+}
+
+#score_board{
+	position: absolute;
+	left:50pt;
+	right:50pt;
+	top:50pt;
+	bottom:50pt;
+	background-color: #945900;
+	background-image: url("img/scribble-light.png");
+	border-radius:20pt;
+	box-shadow: 5pt 5pt 8pt #888888;
+	z-index:1 ;
+	
+}
+
+
+.score_row{
+	position:absolute;
+	left: 50pt;
+}
+
+
+#D_score_row{
+	top: 100pt;
+}
+
+#M_score_row{
+	top: 50%;
+}
+
+#N_score_row{
+	bottom: 100pt;
+}
+
+.score{
+	position:absolute;
+	color:white;
+	font-size: 30pt;
+}
+
+.last_round{
+
+	position:absolute;
+	right: 10pt;
+	left: 220pt;
+
+}
+
+.separator{
+
+	position:absolute;
+	left:0;
+	width:2pt;
+	height:90pt;
+	background-color: rgba(0, 0, 0, 0.4);
+	box-shadow: 0pt 0pt 9pt 1pt rgba(0, 0, 0, 0.5);
+	border-radius: 10pt;
+}
+
+#dealer{
+	position: absolute;
+	text-decoration: none;
+	display: inline;
+	font-size: 8pt;
+	height: 40pt;
+	width: 40pt;
+	border-radius: 50%;
+	background-color: #8a1717;
+	box-shadow: 1pt 2pt 3pt 2pt rgba(0,0,0,0.5);
+	color: white;
+}
