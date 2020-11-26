@@ -1,7 +1,6 @@
 var card_height=document.getElementById("C0").clientHeight;
 var card_height=document.getElementById("C0").clientWidth;
 
-
 class Card {
 	constructor(suit, number){
 		this.suit = suit;

@@ -11,12 +11,11 @@ document.getElementById("menu_diana").onclick= function(){register('D')};
 
 function register(nm){
 	name=nm;
-	websocket = new WebSocket("ws://" + location.host);
+    websocket = new WebSocket("ws://" + location.host+ location.pathname);
 	document.getElementById("menu_marina").style.display='none';
 	document.getElementById("menu_natasha").style.display='none';
 	document.getElementById("menu_diana").style.display='none';
 	document.getElementById("menu_text").style.display='none';
-	
 	
 	websocket.onopen = function(){
 		send_message_to_server({name: nm});
@@ -24,8 +23,8 @@ function register(nm){
 	}
 	
 	websocket.onmessage = function (event) {
-	data = JSON.parse(event.data);
-	respond_to_message(data);
+        data = JSON.parse(event.data);
+        respond_to_message(data);
 	}
 }
 
@@ -33,13 +32,11 @@ function ping() {
 	if (websocket.readyState === WebSocket.OPEN){
         send_message_to_server({type: "__ping__"});
         tm = setTimeout(function () {
-	
            websocket.close();
            register(name);
 		}, 4000);
 	}
 	else if(websocket.readyState === WebSocket.CLOSED){
-		
 		register(name);
 	}
 		
@@ -51,16 +48,13 @@ function pong(){
 
 function send_message_to_server(args){
 	websocket.send(JSON.stringify(args));
-	
 }
 
 
 
 function respond_to_message(args){
 	
-	
 	switch (args.type){
-		
 		case 'error':
 			alert("error: " + args.msg);
 			break;
@@ -96,7 +90,4 @@ function send_turn_data(){
 	
 	send_message_to_server({type:"turn_data", data:turn_data});
 }
-
-
-
 

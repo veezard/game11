@@ -1,121 +1,116 @@
-async def register(ws, name, app):  # response to a new user entering
+from aiohttp import web
+import asyncio
+import json
+import logging
+from . import gameplay as gm
 
-    if name != "D" and name != "M" and name != "N":
-        raise Exception("Wrong name")
 
-    elif name in app['websockets']:
+async def register(ws, name, game: gm.Gameplay):  # response to a new user entering
+
+    tmp = game.players.register(ws, name)
+    if tmp == -1:
         raise Exception("User already logged in")
-    else:
-        app['websockets'][name] = ws
-
-        if (not (name in players_dict)):
-            player_number = int(len(players_dict) / 2)
-            players_dict[name] = player_number
-            players_dict[player_number] = name
-
-            if (len(players_dict) == 6):
-                for name in app['websockets']:
-                    await send_users(name, app)
-                await start_game(app)
-        else:
-            if (len(players_dict) == 6):
-                await send_refresh(name, app)
-                for name in app['websockets']:
-                    await send_users(name, app)
+    elif tmp == 0 and len(game.players.names) == 3:
+        await send_users(name, game)
+        await send_refresh(name, game)
+    elif tmp == 1 and len(game.players.names) == 3:
+        await start_game(game)
 
 
-async def start_game(app):
+async def start_game(game: gm.Gameplay):
 
-    Gameplay.initialize()
-    Gameplay.deal()
-    Gameplay.initial_four()
-    await refresh_all(app)
-
-
-async def send_users(name, app):
-
-    await app['websockets'][name].send_json({"type": 'users', "l_user": players_dict[(players_dict[name] + 1) % 3], "r_user": players_dict[(players_dict[name] + 2) % 3]})
+    await send_users_to_all(game)
+    game.deal()
+    game.initial_four()
+    await refresh_all(game)
 
 
-async def unregister(ws, name, app):  # response to a user leaving
+async def send_users_to_all(game: gm.Gameplay):
+    for name in game.players.websockets:
+        await send_users(name, game)
 
-    del app['websockets'][name]
+
+async def send_users(name, game: gm.Gameplay):
+    await game.players.websockets[name].send_json({"type": 'users', "l_user": game.players.next_name(name), "r_user": game.players.previous_name(name)})
+
+
+async def unregister(ws, name, game: gm.Gameplay):  # response to a user leaving
+
+    del game.players.websockets[name]
 
 
 # respond to a message coming from user.
-async def responde_to_msg(message, name, app):
+async def responde_to_msg(message, name, game: gm.Gameplay):
 
-    global can_undo
-# cards coming from the server are encoded as (-1,1) if there is no card
-# and (-2,-2) if it is flipped over
+    # cards coming from the server are encoded as (-1,1) if there is no card
+    # and (-2,-2) if it is flipped over
 
     if (message['type'] == "__ping__"):
-        await app['websockets'][name].send_json({"type": "__pong__"})
+        await game.players.websockets[name].send_json({"type": "__pong__"})
 
     elif (message['type'] == "refresh"):
-        await send_refresh(name, app)
+        await send_refresh(name, game)
 
-    elif (message['type'] == "turn_data" and players_dict[name] == Gameplay.turn_counter.turn):
+    elif (message['type'] == "turn_data" and game.players.number_from_name(name) == game.turn_counter.turn):
 
-        Gameplay.turn_data['player_card_selected'] = (
+        game.turn_data['player_card_selected'] = (
             message['data']['c_card_selected'])
-        if Gameplay.turn_data['player_card_selected'] != -1:
-            can_undo = False
-        Gameplay.turn_data['t_cards_selected'] = message['data'][
+        if game.turn_data['player_card_selected'] != -1:
+            game.can_undo = False
+        game.turn_data['t_cards_selected'] = message['data'][
             't_cards_selected'][:]
-        for nm in app['websockets']:
+        for nm in game.players.websockets:
             if nm != name:
-                await send_refresh(nm, app)
+                await send_refresh(nm, game)
 
     elif (message['type'] == "undo"):
-        if not can_undo:
+        if not game.can_undo:
             return
         else:
-            Gameplay.undo()
-            can_undo = False
-            await refresh_all(app)
+            game.undo()
+            game.can_undo = False
+            await refresh_all(game)
 
     elif (message['type'] == "play_hand"):
-        if name != players_dict[Gameplay.turn_counter.turn]:
-            await app['websockets'][name].send_json({"type": "alert", "msg": "Something went wrong. Please reload the page."})
-            Gameplay.restart_turn()
-            await refresh_all(app)
+        if name != game.players_dict[game.turn_counter.turn]:
+            await game.players.websockets[name].send_json({"type": "alert", "msg": "Something went wrong. Please reload the page."})
+            game.restart_turn()
+            await refresh_all(game)
             return
 
-        response = Gameplay.play_hand()
+        response = game.play_hand()
         if response == 1:
-            await app['websockets'][name].send_json({"type": "alert", "msg": "The move is invalid"})
-            await refresh_all(app)
+            await game.players.websockets[name].send_json({"type": "alert", "msg": "The move is invalid"})
+            await refresh_all(game)
 
         elif response == 2:  # regular end of turn
-            can_undo = True
-            await refresh_all(app)
+            game.can_undo = True
+            await refresh_all(game)
         elif response == 3:  # cards need to be redealt
-            can_undo = True
-            await refresh_all(app)
+            game.can_undo = True
+            await refresh_all(game)
 
     elif (message['type'] == "deal"):
-        if not Gameplay.dealer_neeeds_to_advance:
+        if not game.dealer_neeeds_to_advance:
             return
         else:
-            if not Gameplay.deal():
-                Gameplay.move_table_to_dealer()
-
-                round_scores = Gameplay.scores()
-                update_score(round_scores)
-                update_last_round_hands()
-                rotate_players()
-                can_undo = False
-                Gameplay.dealer_neeeds_to_advance = False
-                await start_game(app)
-                await open_score_all(app)
+            if not game.deal():
+                game.move_table_to_dealer()
+                round_scores = game.scores()
+                game.update_score(round_scores)
+                game.update_last_round_hands()
+                game.rotate_players()
+                game.can_undo = False
+                game.dealer_neeeds_to_advance = False
+                await start_game(game)
+                await open_score_all(game)
             else:
-                Gameplay.dealer_neeeds_to_advance = False
-                can_undo = False
-                await refresh_all(app)
+                game.dealer_neeeds_to_advance = False
+                game.can_undo = False
+                await refresh_all(game)
 
 
-async def send_refresh(name, app):
+async def send_refresh(name, game: gm.Gameplay):
     c_player_cards = [None] * 4
     l_player_cards = [None] * 4
     r_player_cards = [None] * 4
@@ -124,26 +119,26 @@ async def send_refresh(name, app):
     # fill player card objects with pairs (i,j) corresponding to cards or lack
     # themof.
     for i in range(4):
-        card = Gameplay.players_hands[players_dict[name]][i]
+        card = game.players_hands[game.players.number_from_name(name)][i]
         if (card is not None):
             c_player_cards[i] = (card.suit, card.number)
         else:
             c_player_cards[i] = (-1, -1)
 
-        card = Gameplay.players_hands[((players_dict[name] + 1) % 3)][i]
+        card = game.players_hands[game.players.next_player_number(name)][i]
         if (card is not None):
             l_player_cards[i] = (-2, -2)
         else:
             l_player_cards[i] = (-1, -1)
 
-        card = Gameplay.players_hands[((players_dict[name] + 2) % 3)][i]
+        card = game.players_hands[game.players.previous_player_number(name)][i]
         if (card is not None):
             r_player_cards[i] = (-2, -2)
         else:
             r_player_cards[i] = (-1, -1)
 
     for i in range(52):
-        card = Gameplay.table[i]
+        card = game.table[i]
         if (card is not None):
             t_cards[i] = (card.suit, card.number)
         else:
@@ -152,65 +147,66 @@ async def send_refresh(name, app):
 
 # Display the card the current player chose
 
-    if (Gameplay.turn_data['player_card_selected'] != -1):
+    if (game.turn_data['player_card_selected'] != -1):
 
-        if ((players_dict[name] + 1) % 3 == Gameplay.turn_counter.turn):
+        if (game.players.next_player_number(name) == game.turn_counter.turn):
 
-            card = Gameplay.players_hands[Gameplay.turn_counter.turn][
-                Gameplay.turn_data['player_card_selected']]
+            card = game.players_hands[game.turn_counter.turn][
+                game.turn_data['player_card_selected']]
             if (card is not None):
-                l_player_cards[Gameplay.turn_data['player_card_selected']] = (
+                l_player_cards[game.turn_data['player_card_selected']] = (
                     card.suit, card.number)
             else:
-                l_player_cards[Gameplay.turn_data['player_card_selected']
+                l_player_cards[game.turn_data['player_card_selected']
                                ] = (-1, -1)
 
-        if ((players_dict[name] + 2) % 3 == Gameplay.turn_counter.turn):
-            card = Gameplay.players_hands[Gameplay.turn_counter.turn][
-                Gameplay.turn_data['player_card_selected']]
+        if game.players.previous_player_number(name) == game.turn_counter.turn:
+            card = game.players_hands[game.turn_counter.turn][
+                game.turn_data['player_card_selected']]
             if (card is not None):
-                r_player_cards[Gameplay.turn_data['player_card_selected']] = (
+                r_player_cards[game.turn_data['player_card_selected']] = (
                     card.suit, card.number)
             else:
-                r_player_cards[Gameplay.turn_data['player_card_selected']
+                r_player_cards[game.turn_data['player_card_selected']
                                ] = (-1, -1)
 
     # computing pile_ends. Recall that the first element of
-    # Gameplay.players_piles[player] holds the number of the last taken hand
+    # game.players_piles[player] holds the number of the last taken hand
     pile_ends = [None] * 3
     for i in range(3):
 
-        number_of_last_hand = Gameplay.players_piles[i][0]
-        pile_ends[i] = Gameplay.players_piles[i][-number_of_last_hand:]
+        number_of_last_hand = game.players_piles[i][0]
+        pile_ends[i] = game.players_piles[i][-number_of_last_hand:]
         for j in range(number_of_last_hand):
             card = pile_ends[i][j]
             pile_ends[i][j] = (card.suit, card.number)
 
-    pile_ends = pile_ends[players_dict[name]:] + pile_ends[:players_dict[name]]
+    pile_ends = pile_ends[game.players.number_from_name(
+        name):] + pile_ends[:game.players.number_from_name(name)]
 
-    await app['websockets'][name].send_json({"type": "refresh",
-                                             "c_player": c_player_cards,
-                                             "l_player": l_player_cards,
-                                             "r_player": r_player_cards,
-                                             "table_cards": t_cards,
-                                             "turn": (Gameplay.turn_counter.turn - players_dict[name]) % 3,
-                                             "dealer": (Gameplay.dealer_counter.turn - players_dict[name]) % 3,
-                                             "turn_data": Gameplay.turn_data,
-                                             "deck_size": len(Gameplay.deck),
-                                             "pile_sizes": [len(Gameplay.players_piles[(i + players_dict[name]) % 3]) - 1 for i in range(3)],
-                                             "pile_ends": pile_ends,
-                                             "score": score,
-                                             "last_round_score": last_round_score,
-                                             "last_round_hands": last_round_hands,
-                                             "can_undo": can_undo and (players_dict[name] + 1) % 3 == Gameplay.turn_counter.turn
-                                             })
-
-
-async def refresh_all(app):
-    for name in app['websockets']:
-        await send_refresh(name, app)
+    await game.players.websockets[name].send_json({"type": "refresh",
+                                                   "c_player": c_player_cards,
+                                                   "l_player": l_player_cards,
+                                                   "r_player": r_player_cards,
+                                                   "table_cards": t_cards,
+                                                   "turn": (game.turn_counter.turn - game.players.number_from_name(name)) % 3,
+                                                   "dealer": (game.dealer_counter.turn - game.players.number_from_name(name)) % 3,
+                                                   "turn_data": game.turn_data,
+                                                   "deck_size": len(game.deck),
+                                                   "pile_sizes": [len(game.players_piles[(i + game.players.number_from_name(name)) % 3]) - 1 for i in range(3)],
+                                                   "pile_ends": pile_ends,
+                                                   "score": game.score,
+                                                   "last_round_score": game.last_round_score,
+                                                   "last_round_hands": game.last_round_hands,
+                                                   "can_undo": game.can_undo and (game.players.number_from_name(name) + 1) % 3 == game.turn_counter.turn
+                                                   })
 
 
-async def open_score_all(app):
-    for name in app['websockets']:
-        await app['websockets'][name].send_json({"type": "show_score"})
+async def refresh_all(game: gm.Gameplay):
+    for name in game.players.websockets:
+        await send_refresh(name, game)
+
+
+async def open_score_all(game: gm.Gameplay):
+    for name in game.players.websockets:
+        await game.players.websockets[name].send_json({"type": "show_score"})
