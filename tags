@@ -6,32 +6,13 @@
 !_TAG_PROGRAM_VERSION	5.9~svn20110310	//
 0	static/display.js	/^		0: "S",$/;"	p	class:create_all_cards.dict
 0	static/display.js	/^	var players_to_positions={0:"C", 1:"L", 2:"R"};$/;"	p	class:deemph_all.players_to_positions
-0	static/display.js	/^var num_to_name= {0:"D", 1:"M", 2:"N" };$/;"	p	class:num_to_name
-0	static/display.js	/^var players_to_positions={0:"C", 1:"L", 2:"R"};$/;"	p	class:players_to_positions
 1	static/display.js	/^		1: "C",$/;"	p	class:create_all_cards.dict
 1	static/display.js	/^	var players_to_positions={0:"C", 1:"L", 2:"R"};$/;"	p	class:deemph_all.players_to_positions
-1	static/display.js	/^var num_to_name= {0:"D", 1:"M", 2:"N" };$/;"	p	class:num_to_name
-1	static/display.js	/^var players_to_positions={0:"C", 1:"L", 2:"R"};$/;"	p	class:players_to_positions
 2	static/display.js	/^		2: "H",$/;"	p	class:create_all_cards.dict
 2	static/display.js	/^	var players_to_positions={0:"C", 1:"L", 2:"R"};$/;"	p	class:deemph_all.players_to_positions
-2	static/display.js	/^var num_to_name= {0:"D", 1:"M", 2:"N" };$/;"	p	class:num_to_name
-2	static/display.js	/^var players_to_positions={0:"C", 1:"L", 2:"R"};$/;"	p	class:players_to_positions
 3	static/display.js	/^		3: "D"$/;"	p	class:create_all_cards.dict
 Card	src/gameplay.py	/^class Card:$/;"	c
-D	static/display.js	/^	var name_to_file = {'M':"marina", "N": "natasha", "D": "diana"};$/;"	p	class:update_users.name_to_file
-D	static/display.js	/^var last_round_hands={"D":[],"M":[], "N":[]};$/;"	p	class:last_round_hands
-D	static/display.js	/^var last_round_score ={"D":0,"M":0, "N":0};$/;"	p	class:last_round_score
-D	static/display.js	/^var name_to_num= {"D":0, "M":1, "N":2 };$/;"	p	class:name_to_num
-D	static/display.js	/^var score={"D":0,"M":0, "N":0};$/;"	p	class:score
 Gameplay	src/gameplay.py	/^class Gameplay:$/;"	c
-M	static/display.js	/^	var name_to_file = {'M':"marina", "N": "natasha", "D": "diana"};$/;"	p	class:update_users.name_to_file
-M	static/display.js	/^var last_round_score ={"D":0,"M":0, "N":0};$/;"	p	class:last_round_score
-M	static/display.js	/^var name_to_num= {"D":0, "M":1, "N":2 };$/;"	p	class:name_to_num
-M	static/display.js	/^var score={"D":0,"M":0, "N":0};$/;"	p	class:score
-N	static/display.js	/^	var name_to_file = {'M':"marina", "N": "natasha", "D": "diana"};$/;"	p	class:update_users.name_to_file
-N	static/display.js	/^var last_round_score ={"D":0,"M":0, "N":0};$/;"	p	class:last_round_score
-N	static/display.js	/^var name_to_num= {"D":0, "M":1, "N":2 };$/;"	p	class:name_to_num
-N	static/display.js	/^var score={"D":0,"M":0, "N":0};$/;"	p	class:score
 Player_counter	src/gameplay.py	/^class Player_counter:$/;"	c
 Players	src/gameplay.py	/^class Players:$/;"	c
 __init__	src/gameplay.py	/^    def __init__(self):$/;"	m	class:Gameplay
@@ -57,13 +38,14 @@ deemph_all	static/display.js	/^function deemph_all(){$/;"	f
 display_update	static/display.js	/^function display_update(){$/;"	f
 document.body.onkeyup	static/buttons.js	/^document.body.onkeyup = function(e){$/;"	f
 document.getElementById	static/buttons.js	/^document.getElementById("undo_button").onclick=function(){$/;"	f
-document.getElementById	static/interact.js	/^document.getElementById("menu_marina").onclick= function(){register('M')};$/;"	f
+document.getElementById	static/interact.js	/^document.getElementById("menu_marina").onclick= function(){register('Marina')};$/;"	f
 enter_game	main.py	/^async def enter_game(request):$/;"	f
 get_websocket_by_number	src/gameplay.py	/^    def get_websocket_by_number(self, player_number):$/;"	m	class:Players
 i	static/interact.js	/^var i,j;$/;"	v
 index	main.py	/^async def index(request):$/;"	f
 init_app	main.py	/^async def init_app():$/;"	f
 initial_four	src/gameplay.py	/^    def initial_four(self):$/;"	m	class:Gameplay
+initialize	src/gameplay.py	/^    def initialize(self):$/;"	m	class:Gameplay
 l_cards	static/display.js	/^var l_cards = [null,null,null,null];$/;"	v
 main	main.py	/^def main():$/;"	f
 move_dealer	static/display.js	/^function move_dealer(dealer){$/;"	f
@@ -71,6 +53,7 @@ move_spotlight	static/display.js	/^function move_spotlight(user){$/;"	f
 move_table_to_dealer	src/gameplay.py	/^    def move_table_to_dealer(self):$/;"	m	class:Gameplay
 move_to	src/gameplay.py	/^    def move_to(self, location):$/;"	m	class:Card
 name	static/interact.js	/^var name;$/;"	v
+names	static/display.js	/^var names=['','']$/;"	v
 next_name	src/gameplay.py	/^    def next_name(self, name):$/;"	m	class:Players
 next_player_number	src/gameplay.py	/^    def next_player_number(self, name):$/;"	m	class:Players
 number_from_name	src/gameplay.py	/^    def number_from_name(self, name):$/;"	m	class:Players
@@ -85,7 +68,6 @@ play_button_click	static/buttons.js	/^function play_button_click(event){$/;"	f
 play_hand	src/gameplay.py	/^    def play_hand(self):$/;"	m	class:Gameplay
 player_card_deemph	static/display.js	/^function player_card_deemph(card_element){$/;"	f
 player_card_emph	static/display.js	/^function player_card_emph(card_element){$/;"	f
-players	static/display.js	/^var players=["L", "C", "R"];$/;"	v
 pong	static/interact.js	/^function pong(){$/;"	f
 previous_name	src/gameplay.py	/^    def previous_name(self, name):$/;"	m	class:Players
 previous_player_number	src/gameplay.py	/^    def previous_player_number(self, name):$/;"	m	class:Players
@@ -99,7 +81,7 @@ register	static/interact.js	/^function register(nm){$/;"	f
 respond_to_message	static/interact.js	/^function respond_to_message(args){$/;"	f
 responde_to_msg	src/server_side.py	/^async def responde_to_msg(message, name, game: gm.Gameplay):$/;"	f
 restart_turn	src/gameplay.py	/^    def restart_turn(self):$/;"	m	class:Gameplay
-rotate_players	src/gameplay.py	/^    def rotate_players(self):$/;"	m	class:Gameplay
+rotate_list	src/server_side.py	/^def rotate_list(l: list, rotate_by):$/;"	f
 score_button_click	static/buttons.js	/^function score_button_click(){$/;"	f
 scores	src/gameplay.py	/^    def scores(self):$/;"	m	class:Gameplay
 send_message_to_server	static/interact.js	/^function send_message_to_server(args){$/;"	f
@@ -118,7 +100,6 @@ table_card_deemph	static/display.js	/^function table_card_deemph(card_element){$
 table_card_emph	static/display.js	/^function table_card_emph(card_element){$/;"	f
 table_card_id_to_number	static/buttons.js	/^function table_card_id_to_number(table_card_id){$/;"	f
 tm	static/interact.js	/^var tm;$/;"	v
-turn	static/display.js	/^var turn= -1;$/;"	v
 undo	src/gameplay.py	/^    def undo(self):$/;"	m	class:Gameplay
 unregister	src/server_side.py	/^async def unregister(ws, name, game: gm.Gameplay):  # response to a user leaving$/;"	f
 update_last_round_hands	src/gameplay.py	/^    def update_last_round_hands(self):$/;"	m	class:Gameplay

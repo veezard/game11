@@ -88,16 +88,29 @@ class Gameplay:
 
         self.score = [0, 0, 0]
         self.last_round_score = [0, 0, 0]
-        self.last_round_hands = {0: [], 1: [], 2: []}
+        self.last_round_hands = [[]] * 3
         self.can_undo = False
-
-        # move all cards to the deck
-        for suit in self.cards:
-            for card in suit:
-                card.move_to(self.deck)
-        self.players_piles = [[0] for i in range(3)]
-        self.turn_counter.turn = 1
         self.dealer_counter.turn = 0
+
+    def initialize(self):
+# Only deal 16 cards
+        for i in range(1):
+            self.cards[0][i].move_to(self.deck)
+        # self.cards[1][1].move_to(self.deck)
+        for i in range(3):
+            self.cards[1][i].move_to(self.deck)
+        for i in range(4):
+            self.cards[2][i].move_to(self.deck)
+        for i in range(4):
+            self.cards[i][10].move_to(self.deck)
+        for i in range(4):
+            self.cards[i][9].move_to(self.deck)
+        # move all cards to the deck
+        # for suit in self.cards:
+            # for card in suit:
+            # card.move_to(self.deck)
+        self.players_piles = [[0] for i in range(3)]
+        self.turn_counter.turn = self.dealer_counter.turn+1
 
     def deal(self):
         if self.deck:  # a set evaluates to False if empty
@@ -262,9 +275,6 @@ class Gameplay:
         for i in range(3):
             self.last_round_score[i] = scores[i]
             self.score[i] += scores[i]
-
-    def rotate_players(self):
-        self.names = self.names[1:] + [self.names[0]]
 
     def update_last_round_hands(self):
 

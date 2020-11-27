@@ -1,6 +1,28 @@
 var card_height=document.getElementById("C0").clientHeight;
 var card_height=document.getElementById("C0").clientWidth;
 
+var l_cards = [null,null,null,null];
+var r_cards = [null,null,null,null];
+var c_cards = [null,null,null,null];
+var t_cards = new Array(52);
+t_cards.fill(null,0,52);
+
+var names=['','']
+var score=[0,0,0] 
+var last_round_score =[0,0,0] 
+
+var last_round_hands=[[], [], []] 
+
+var turn= -1;
+var dealer= -1;
+var turn_data={c_card_selected:-1, t_cards_selected : Array(52).fill(0)};
+var deck_size=0;
+var pile_sizes=[0,0,0];
+var pile_ends=[[],[],[]];
+
+var can_undo = false;
+
+
 class Card {
 	constructor(suit, number){
 		this.suit = suit;
@@ -62,45 +84,12 @@ function create_all_cards(){
 	}
 	cards[4]= new Card(null,null);
 	return cards;
-	
 }
-
-var players=["L", "C", "R"];
-var l_cards = [null,null,null,null];
-var r_cards = [null,null,null,null];
-var c_cards = [null,null,null,null];
-var t_cards = new Array(52);
-t_cards.fill(null,0,52);
-
-var score={"D":0,"M":0, "N":0};
-var last_round_score ={"D":0,"M":0, "N":0};
-
-var last_round_hands={"D":[],"M":[], "N":[]};
-
-
-var num_to_name= {0:"D", 1:"M", 2:"N" };
-var name_to_num= {"D":0, "M":1, "N":2 };
-var players_to_positions={0:"C", 1:"L", 2:"R"};
-
-
-create_gameplay_divs();
-cards= create_all_cards();
-create_score_card_divs();
-
-var turn= -1;
-var dealer= -1;
-var turn_data={c_card_selected:-1, t_cards_selected : Array(52).fill(0)};
-var deck_size=0;
-var pile_sizes=[0,0,0];
-var pile_ends=[[],[],[]];
-
-var can_undo = false;
-
 
 function create_score_card_divs(){
 	
 		for (i=0; i<3 ; i++){
-			score_div= document.getElementById( num_to_name[i] + "_last_round");
+			score_div= document.getElementById(  "last_round_"+i);
 			for (j=0; j< 52 ; j++){
 				newDiv = document.createElement("div");
 				newDiv.classList.add('card');
@@ -111,12 +100,7 @@ function create_score_card_divs(){
 			}
 		
 		}
-
-	
 }
-
-
-
 
 
 function server_card_to_js_card(server_card){
@@ -149,14 +133,14 @@ function refresh(args){
 	
 	// update last round hands 
 	for (i=0; i<3; i++){
-		last_round_hands[num_to_name[i]]=[];
+		last_round_hands[i]=[];
 	}
 	
 	var last_round_cards;
 	for(i=0; i<3; i++){
-		last_round_cards=args.last_round_hands[num_to_name[i]];
+		last_round_cards=args.last_round_hands[i];
 		for (j=0;j < last_round_cards.length; j++){
-			last_round_hands[num_to_name[i]].push(cards[last_round_cards[j][0]][last_round_cards[j][1]]);
+			last_round_hands[i].push(cards[last_round_cards[j][0]][last_round_cards[j][1]]);
 			
 		}
 		
@@ -310,8 +294,8 @@ function display_update(){
 	
 	// display score	
 	for(i=0; i<3 ; i++){
-		document.getElementById( num_to_name[i]+"_score").innerHTML= score[num_to_name[i]];
-		document.getElementById( num_to_name[i]+"_last_round_score").innerHTML= last_round_score[num_to_name[i]];
+		document.getElementById( "score_"+ i ).innerHTML= score[i];
+		document.getElementById( "last_round_score_"+ i).innerHTML= last_round_score[i];
 	}
 	show_last_round();
 	
@@ -326,9 +310,13 @@ function display_update(){
 }
 
 function update_users(args){
-	var name_to_file = {'M':"marina", "N": "natasha", "D": "diana"};
-	document.getElementById("Lavatar").style.backgroundImage="url('img/"+ name_to_file[args.l_user] + ".jpg')";
-	document.getElementById("Ravatar").style.backgroundImage="url('img/"+ name_to_file[args.r_user] + ".jpg')";
+    names[0]=args.l_user;
+    names[1]=args.r_user;
+	document.getElementById("Lavatar").innerHTML=names[0];
+	document.getElementById("Ravatar").innerHTML=names[1];
+    document.getElementById("score_avatar_0").innerHTML=name;
+	document.getElementById("score_avatar_1").innerHTML=names[0];
+	document.getElementById("score_avatar_2").innerHTML=names[1];
 }
 
 function move_spotlight(user){
@@ -438,7 +426,7 @@ function deemph_all(){
 function show_last_round(){
 	var last_round_cards;
 	for (i=0; i<3 ; i++){
-		last_round_cards=last_round_hands[num_to_name[i]];
+		last_round_cards=last_round_hands[i];
 		for (j=0; j< 52; j++){
 			card_div=document.getElementById("last_round_score_card_" +i + "_" + j + "_");
 			if (j< last_round_cards.length){
@@ -456,4 +444,7 @@ function show_last_round(){
 }
 
 
+create_gameplay_divs();
+cards= create_all_cards();
+create_score_card_divs();
 

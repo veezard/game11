@@ -20,6 +20,7 @@ async def register(ws, name, game: gm.Gameplay):  # response to a new user enter
 async def start_game(game: gm.Gameplay):
 
     await send_users_to_all(game)
+    game.initialize()
     game.deal()
     game.initial_four()
     await refresh_all(game)
@@ -72,7 +73,7 @@ async def responde_to_msg(message, name, game: gm.Gameplay):
             await refresh_all(game)
 
     elif (message['type'] == "play_hand"):
-        if name != game.players_dict[game.turn_counter.turn]:
+        if name != game.players.names[game.turn_counter.turn]:
             await game.players.websockets[name].send_json({"type": "alert", "msg": "Something went wrong. Please reload the page."})
             game.restart_turn()
             await refresh_all(game)
@@ -99,7 +100,7 @@ async def responde_to_msg(message, name, game: gm.Gameplay):
                 round_scores = game.scores()
                 game.update_score(round_scores)
                 game.update_last_round_hands()
-                game.rotate_players()
+                game.dealer_counter.advance()
                 game.can_undo = False
                 game.dealer_neeeds_to_advance = False
                 await start_game(game)
@@ -111,6 +112,9 @@ async def responde_to_msg(message, name, game: gm.Gameplay):
 
 
 async def send_refresh(name, game: gm.Gameplay):
+    player_number = game.players.number_from_name(name)
+    next_player = (player_number + 1) % 3
+    previous_player = (player_number - 1) % 3
     c_player_cards = [None] * 4
     l_player_cards = [None] * 4
     r_player_cards = [None] * 4
@@ -119,19 +123,19 @@ async def send_refresh(name, game: gm.Gameplay):
     # fill player card objects with pairs (i,j) corresponding to cards or lack
     # themof.
     for i in range(4):
-        card = game.players_hands[game.players.number_from_name(name)][i]
+        card = game.players_hands[player_number][i]
         if (card is not None):
             c_player_cards[i] = (card.suit, card.number)
         else:
             c_player_cards[i] = (-1, -1)
 
-        card = game.players_hands[game.players.next_player_number(name)][i]
+        card = game.players_hands[next_player][i]
         if (card is not None):
             l_player_cards[i] = (-2, -2)
         else:
             l_player_cards[i] = (-1, -1)
 
-        card = game.players_hands[game.players.previous_player_number(name)][i]
+        card = game.players_hands[previous_player][i]
         if (card is not None):
             r_player_cards[i] = (-2, -2)
         else:
@@ -149,7 +153,7 @@ async def send_refresh(name, game: gm.Gameplay):
 
     if (game.turn_data['player_card_selected'] != -1):
 
-        if (game.players.next_player_number(name) == game.turn_counter.turn):
+        if (next_player == game.turn_counter.turn):
 
             card = game.players_hands[game.turn_counter.turn][
                 game.turn_data['player_card_selected']]
@@ -160,7 +164,7 @@ async def send_refresh(name, game: gm.Gameplay):
                 l_player_cards[game.turn_data['player_card_selected']
                                ] = (-1, -1)
 
-        if game.players.previous_player_number(name) == game.turn_counter.turn:
+        if previous_player == game.turn_counter.turn:
             card = game.players_hands[game.turn_counter.turn][
                 game.turn_data['player_card_selected']]
             if (card is not None):
@@ -181,24 +185,21 @@ async def send_refresh(name, game: gm.Gameplay):
             card = pile_ends[i][j]
             pile_ends[i][j] = (card.suit, card.number)
 
-    pile_ends = pile_ends[game.players.number_from_name(
-        name):] + pile_ends[:game.players.number_from_name(name)]
-
     await game.players.websockets[name].send_json({"type": "refresh",
                                                    "c_player": c_player_cards,
                                                    "l_player": l_player_cards,
                                                    "r_player": r_player_cards,
                                                    "table_cards": t_cards,
-                                                   "turn": (game.turn_counter.turn - game.players.number_from_name(name)) % 3,
-                                                   "dealer": (game.dealer_counter.turn - game.players.number_from_name(name)) % 3,
+                                                   "turn": (game.turn_counter.turn - player_number) % 3,
+                                                   "dealer": (game.dealer_counter.turn - player_number) % 3,
                                                    "turn_data": game.turn_data,
                                                    "deck_size": len(game.deck),
-                                                   "pile_sizes": [len(game.players_piles[(i + game.players.number_from_name(name)) % 3]) - 1 for i in range(3)],
-                                                   "pile_ends": pile_ends,
-                                                   "score": game.score,
-                                                   "last_round_score": game.last_round_score,
-                                                   "last_round_hands": game.last_round_hands,
-                                                   "can_undo": game.can_undo and (game.players.number_from_name(name) + 1) % 3 == game.turn_counter.turn
+                                                   "pile_sizes": rotate_list([len(game.players_piles[i]) - 1 for i in range(3)], player_number),
+                                                   "pile_ends": rotate_list(pile_ends, player_number),
+                                                   "score": rotate_list(game.score, player_number),
+                                                   "last_round_score": rotate_list(game.last_round_score, player_number),
+                                                   "last_round_hands": rotate_list(game.last_round_hands, player_number),
+                                                   "can_undo": game.can_undo and next_player == game.turn_counter.turn
                                                    })
 
 
@@ -210,3 +211,10 @@ async def refresh_all(game: gm.Gameplay):
 async def open_score_all(game: gm.Gameplay):
     for name in game.players.websockets:
         await game.players.websockets[name].send_json({"type": "show_score"})
+
+
+def rotate_list(l: list, rotate_by):
+    if rotate_by >= len(l):
+        return None
+    else:
+        return l[rotate_by:] + l[:rotate_by]

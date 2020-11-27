@@ -11,8 +11,6 @@ html {
   }
 
 
-
-
 .button{
 	position:absolute;
 	
@@ -233,10 +231,28 @@ html {
 	background-position:50% 50%;
 	background-repeat:no-repeat;
 	background-size:contain;
-	
-	
 }
-
+.aavatar{ /*Change to avatar later*/
+	position:block;	
+    text-align:center;
+    font-size: 18pt;
+    padding:6pt;
+	border-radius: 30%;
+	background-color: #175f51;
+	box-shadow: inset 0pt 0pt 3pt 2pt rgb(0,0,0);
+	color: white;
+    transform: translate(0pt,-215pt);
+}
+#Lavatar_panel{
+    position:absolute;
+    top:50%;
+    left: 20pt; 
+}
+#Ravatar_panel{
+    position:absolute;
+    top:50%;
+    right: 10pt; 
+}
 
 
 .card{
@@ -276,23 +292,34 @@ background-size:contain;
 	left: 50pt;
 }
 
-
-#D_score_row{
-	top: 100pt;
+#score_row_inst{
+    top:0pt;
 }
 
-#M_score_row{
-	top: 50%;
+#score_row_0{
+	top: 110pt;
 }
 
-#N_score_row{
+#score_row_1{
+	top: 47%;
+}
+
+#score_row_2{
 	bottom: 100pt;
+}
+
+.score_inst{
+    position: absolute;
+    color:white;
+    font-size: 20pt;
+    top:0pt;
 }
 
 .score{
 	position:absolute;
 	color:white;
 	font-size: 30pt;
+    top:0pt;
 }
 
 .last_round{

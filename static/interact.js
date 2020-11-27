@@ -5,9 +5,9 @@ var tm;
 var i,j;
 
 
-document.getElementById("menu_marina").onclick= function(){register('M')};
-document.getElementById("menu_natasha").onclick=function(){register('N')};
-document.getElementById("menu_diana").onclick= function(){register('D')};
+document.getElementById("menu_marina").onclick= function(){register('Marina')};
+document.getElementById("menu_natasha").onclick=function(){register('Natasha')};
+document.getElementById("menu_diana").onclick= function(){register('Diana')};
 
 function register(nm){
 	name=nm;
