@@ -93,24 +93,25 @@ class Gameplay:
         self.dealer_counter.turn = 0
 
     def initialize(self):
-# Only deal 16 cards
-        for i in range(1):
-            self.cards[0][i].move_to(self.deck)
-        # self.cards[1][1].move_to(self.deck)
-        for i in range(3):
-            self.cards[1][i].move_to(self.deck)
-        for i in range(4):
-            self.cards[2][i].move_to(self.deck)
-        for i in range(4):
-            self.cards[i][10].move_to(self.deck)
-        for i in range(4):
-            self.cards[i][9].move_to(self.deck)
+        # Only deal 16 cards
+        # for i in range(1):
+        # self.cards[0][i].move_to(self.deck)
+        # # self.cards[1][1].move_to(self.deck)
+        # for i in range(3):
+        # self.cards[1][i].move_to(self.deck)
+        # for i in range(4):
+        # self.cards[2][i].move_to(self.deck)
+        # for i in range(4):
+        # self.cards[i][10].move_to(self.deck)
+        # for i in range(4):
+        # self.cards[i][9].move_to(self.deck)
         # move all cards to the deck
-        # for suit in self.cards:
-            # for card in suit:
-            # card.move_to(self.deck)
+        for suit in self.cards:
+            for card in suit:
+                card.move_to(self.deck)
+
         self.players_piles = [[0] for i in range(3)]
-        self.turn_counter.turn = self.dealer_counter.turn+1
+        self.turn_counter.turn = self.dealer_counter.turn + 1
 
     def deal(self):
         if self.deck:  # a set evaluates to False if empty
