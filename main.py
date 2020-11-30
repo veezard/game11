@@ -33,7 +33,24 @@ async def enter_game(request):
 
         with open('static/game.html', 'r') as myfile:
             data = myfile.read()
-            return web.Response(text=data, content_type='text/html')
+            current_game = active_games[game_id]
+            response = web.Response(text=data, content_type='text/html')
+            response.set_cookie(
+                "room_full",
+                current_game.players.game_full(),
+                max_age=5)
+            response.set_cookie(
+                "names_logged_in",
+                current_game.players.names_logged_in, max_age=5)
+            response.set_cookie(
+                "number_of_orphaned_names",
+                current_game.players.number_of_orphaned_names(), max_age=5)
+            for i in range(current_game.players.number_of_orphaned_names()):
+                response.set_cookie(
+                    str(i) + "_orphan",
+                    current_game.players.orphaned_names()[i],
+                    max_age=5)
+            return response
 
     await ws_current.prepare(request)
     try:

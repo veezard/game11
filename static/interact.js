@@ -4,18 +4,58 @@ var tm;
 
 var i,j;
 
+function getCookieValue(a) {
+    var b = document.cookie.match('(^|;)\\s*' + a + '\\s*=\\s*([^;]+)');
+    return b ? b.pop() : '';
+}
 
-document.getElementById("menu_marina").onclick= function(){register('Marina')};
-document.getElementById("menu_natasha").onclick=function(){register('Natasha')};
-document.getElementById("menu_diana").onclick= function(){register('Diana')};
+var room_full=getCookieValue('room_full');
+var names_logged_in=getCookieValue(names_logged_in);
+var number_of_orphaned_names= getCookieValue('number_of_orphaned_names');
+var orphaned_names=[];
+for (i=0; i< number_of_orphaned_names; i++){
+   orphaned_names.push( getCookieValue(i+"_orphan"));  
+}
+
+if (room_full== "True"){
+    document.getElementById("name_prompt").innerHTML="Room full";
+    document.getElementById("name_input").style.display='none';
+    document.getElementById("name_submit_button").style.display='none';
+}
+
+if (names_logged_in>=3){
+    document.getElementById("name_prompt").style.display='none';
+    document.getElementById("name_input").style.display='none';
+    document.getElementById("name_submit_button").style.display='none';
+}
+
+for (i=0; i<number_of_orphaned_names; i++){
+    document.getElementById("orphan_"+i).innerHTML=orphaned_names[i];
+    document.getElementById("orphan_"+i).style.display='inline';
+    document.getElementById("orphan_"+i).onclick=function(event){
+        register(event.target.innerHTML);
+        document.getElementById("intro_div").style.display="none";
+    }
+
+}
+
+
+document.getElementById("game_address").innerHTML="http://"+ location.host + location.pathname;
+
+document.getElementById("name_submit_button").onclick=function(){
+    var name_entry=document.getElementById("name_input").value;
+    if (name_entry != ""){
+        register(name_entry);
+        document.getElementById("intro_div").style.display="none";
+    }
+}
+
+
+
 
 function register(nm){
 	name=nm;
     websocket = new WebSocket("ws://" + location.host+ location.pathname);
-	document.getElementById("menu_marina").style.display='none';
-	document.getElementById("menu_natasha").style.display='none';
-	document.getElementById("menu_diana").style.display='none';
-	document.getElementById("menu_text").style.display='none';
 	
 	websocket.onopen = function(){
 		send_message_to_server({name: nm});

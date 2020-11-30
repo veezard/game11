@@ -118,6 +118,8 @@ function server_card_to_js_card(server_card){
 }
 function refresh(args){
 	
+    document.getElementById("waiting_window").style.display='none';
+
 	for(i=0; i<4; i++){
 		c_cards[i] = server_card_to_js_card(args.c_player[i]);
 	}

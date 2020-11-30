@@ -11,14 +11,29 @@ class Players:
     def register(self, ws, name):
         if name in self.websockets:  # Someone is already logged in with the name
             return -1
-        if name in self.names:  # Someone already logged in with the name but then left. Registering new websocket to that name
+        elif name in self.names:  # Someone already logged in with the name but then left. Registering new websocket to that name
             self.websockets[name] = ws
             return 0
+        elif len(
+                self.names) == 3:  # Three names already registered and trying to register with a new name
+            return -2
         else:
             self.names.append(name)
             self.websockets[name] = ws
             self.names_logged_in += 1
             return 1
+
+    def game_full(self):
+        if len(self.websockets) >= 3:
+            return True
+        else:
+            return False
+
+    def orphaned_names(self):
+        return [name for name in self.names if name not in self.websockets]
+
+    def number_of_orphaned_names(self):
+        return len(self.orphaned_names())
 
     def get_websocket_by_number(self, player_number):
         if player_number >= len(
@@ -28,9 +43,6 @@ class Players:
             return 0
         else:
             return self.websockets[self.names[player_number]]
-
-    def orphaned_names(self):
-        return [name for name in self.names if not self.websockets[name]]
 
     def number_from_name(self, name):
         if name in self.names:

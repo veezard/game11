@@ -7,9 +7,15 @@ from . import gameplay as gm
 
 async def register(ws, name, game: gm.Gameplay):  # response to a new user entering
 
+    if game.players.game_full():
+        raise Exception("The game is full")
     tmp = game.players.register(ws, name)
+
     if tmp == -1:
         raise Exception("User already logged in")
+    elif tmp == -2:
+        raise Exception(
+            "The room is full. If you are returning to the game, use the same name.")
     elif tmp == 0 and len(game.players.names) == 3:
         await send_users(name, game)
         await send_refresh(name, game)

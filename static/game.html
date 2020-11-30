@@ -10,15 +10,29 @@
 	<body>
 
 		<div id="table">
+            <div id="intro_div">
+                <div id="name_prompt">Enter your name</div>
+                <input type="text" id="name_input">
+                <input type="submit" id="name_submit_button" value="Submit">
+                <div id="orphaned_names_row">
+                    
+                    <div class="avatar orphaned_avatar" id="orphan_0" style="left:0pt;"></div>
+                    <div class="avatar orphaned_avatar" id="orphan_1" style="left:45%;"></div>
+                    <div class="avatar orphaned_avatar" id="orphan_2" style="right:0pt;"></div>
+                </div>
+
+            </div>
+
+            <div id="waiting_window"> 
+                <h1>Waiting for other players at</h1>
+                <h1 id="game_address">
+                </h1>
+            </div>
             
-			<div id="menu_text">Choose Your Face</div>
-			<div id="menu_marina"> <div class="avatar"  style="background-image: url(&quot;img/marina.jpg&quot;); "> </div></div>
-			<div id="menu_natasha"><div class="avatar"  style="background-image: url(&quot;img/natasha.jpg&quot;);"> </div></div>
-			<div id="menu_diana"><div class="avatar"  style="background-image: url(&quot;img/diana.jpg&quot;); "> </div></div>
 			
 			<div id="playerL_lifted"></div>
             <div id="Lavatar_panel">
-                <div class="aavatar" id="Lavatar"></div>
+                <div class="avatar" id="Lavatar"></div>
             </div>
 			<div id="playerL" >
 				<div class="card" id="L0" style="background-image: url(&quot;img/back.png&quot;); transform: translate(-105pt, 0pt);"></div>
@@ -30,7 +44,7 @@
 			</div>
 			<div id="playerR_lifted"></div>
             <div id="Ravatar_panel">
-                <div class="aavatar" id="Ravatar"></div>
+                <div class="avatar" id="Ravatar"></div>
             </div>
 			<div id="playerR">
 				<div class="card" id ="R0" style="background-image: url(&quot;img/back.png&quot;); transform: translate(-105pt, 0pt);"></div>
@@ -74,21 +88,21 @@
 			
 			<div id="score_row_0" class="score_row">
                 <div id="score_0" class="score">0</div>
-                <div class="aavatar" id="score_avatar_0" style="transform: translate(50pt, 0pt) "></div>
+                <div class="avatar" id="score_avatar_0" style="transform: translate(50pt, 0pt) "></div>
                 <div id="last_round_score_0" class="score" style=" transform: translate(210pt, 0pt)">0</div>
                 <div id="last_round_0" class="last_round"></div>
 			</div>
 			
 			<div id="score_row_1" class="score_row">
                 <div id="score_1" class="score">0</div>
-                <div class="aavatar" id="score_avatar_1" style=" transform: translate(50pt, 0pt) "></div>
+                <div class="avatar" id="score_avatar_1" style=" transform: translate(50pt, 0pt) "></div>
                 <div id="last_round_score_1" class="score" style=" transform: translate(210pt, 0pt)">0</div>
                 <div id="last_round_1" class="last_round"></div>
 			</div>
 			
 			<div id="score_row_2" class="score_row">
                 <div id="score_2" class="score">0</div>
-                <div class="aavatar" id="score_avatar_2" style="transform: translate(50pt, 0pt) "></div>
+                <div class="avatar" id="score_avatar_2" style="transform: translate(50pt, 0pt) "></div>
                 <div id="last_round_score_2" class="score" style=" transform: translate(210pt, 0pt)">0</div>
                 <div id="last_round_2" class="last_round"></div>
 			</div>

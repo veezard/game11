@@ -9,7 +9,58 @@
 html {
   
   }
+#intro_div{
+    text-align:center;
+	position: absolute;
+	color:#1e3b1a;
+	left:50pt;
+	right:50pt;
+	top:50pt;
+	bottom:50pt;
+	background-color: #a08964;
+	background-image: url("img/scribble-light.png");
+	border-radius:20pt;
+	box-shadow: 5pt 5pt 8pt #888888;
+	z-index:3;
 
+}
+
+#name_prompt{
+    font-size:40pt;
+    margin-top:40pt;
+    margin-bottom:40pt;
+
+}
+#name_input{
+    font-size:20pt;
+
+}
+#name_submit_button{
+    font-size:20pt;
+}
+
+#orphaned_names_row{
+    position:absolute;
+    top:200pt;
+    margin:50pt;
+    width:-webkit-fill-available;
+}
+
+#waiting_window{
+    text-align:center;
+	position: absolute;
+	color:#1e3b1a;
+	left:50pt;
+	right:50pt;
+	top:50pt;
+	bottom:50pt;
+	background-color: #a08964;
+	background-image: url("img/scribble-light.png");
+	border-radius:20pt;
+	box-shadow: 5pt 5pt 8pt #888888;
+	z-index:2;
+
+}
 
 .button{
 	position:absolute;
@@ -219,20 +270,8 @@ html {
 	transform-origin: 50% 50%;
 	display:none;
 }
-.avatar{
-	position:absolute;	
-	height:var(--card_height);
-	width:var(--card_height);
-	left:calc(var(--card_height)*-0.5);
-	top:calc(var(--card_height)*-0.5);
-	
-	overflow:hidden;
 
-	background-position:50% 50%;
-	background-repeat:no-repeat;
-	background-size:contain;
-}
-.aavatar{ /*Change to avatar later*/
+.avatar{ 
 	position:block;	
     text-align:center;
     font-size: 18pt;
@@ -242,6 +281,11 @@ html {
 	box-shadow: inset 0pt 0pt 3pt 2pt rgb(0,0,0);
 	color: white;
     transform: translate(0pt,-215pt);
+}
+.orphaned_avatar{
+    position:absolute;
+    transform: translate(0pt,0pt);
+    display:none;
 }
 #Lavatar_panel{
     position:absolute;
