@@ -4,11 +4,10 @@ import json
 import logging
 import src.gameplay as gm
 import src.server_side as ss
+import time
 
 
 logging.basicConfig(filename='log.log', level=logging.DEBUG)
-
-# app['websockets'] is a dictionary of [name: websocket].
 
 active_games = {}
 
@@ -71,6 +70,15 @@ async def enter_game(request):
 
     finally:
         await ss.unregister(ws_current, name, active_games[game_id])
+        if len(active_games[game_id].players.websockets) == 0:
+            await delete_game_maybe(game_id)
+
+
+async def delete_game_maybe(game_id):  # Can't get asyncio.sleep to no stall
+    await asyncio.sleep(5)  # set to wait 5 seconds
+    if game_id in active_games and len(
+            active_games[game_id].players.websockets) == 0:
+        del active_games[game_id]
 
 
 async def init_app():

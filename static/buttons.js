@@ -13,6 +13,7 @@ document.body.onkeyup = function(e){
     }
 }
 document.getElementById("score_button").onclick=score_button_click;
+document.getElementById("rules_button").onclick=rules_button_click;
 
 document.getElementById("dealer").onclick= function(){
 	
@@ -119,12 +120,16 @@ function show_score(){
 function score_button_click(){
 	score_div=document.getElementById("score_board");
 	if (score_div.style.display == "none") {
-		
 		score_div.style.display = "inline";
-		
 	} else {
 		score_div.style.display = "none";
 	}
-
-	
+}
+function rules_button_click(){
+	rules_div=document.getElementById("rules_window");
+	if (rules_div.style.display == "none") {
+		rules_div.style.display = "inline";
+	} else {
+		rules_div.style.display = "none";
+	}
 }

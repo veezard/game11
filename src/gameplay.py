@@ -102,7 +102,7 @@ class Gameplay:
         self.last_round_score = [0, 0, 0]
         self.last_round_hands = [[]] * 3
         self.can_undo = False
-        self.dealer_counter.turn = 0
+        self.dealer_counter.turn = random.randint(0, 2)
 
     def initialize(self):
         # Only deal 16 cards
@@ -123,7 +123,7 @@ class Gameplay:
                 card.move_to(self.deck)
 
         self.players_piles = [[0] for i in range(3)]
-        self.turn_counter.turn = self.dealer_counter.turn + 1
+        self.turn_counter.turn = (self.dealer_counter.turn + 1) % 3
 
     def deal(self):
         if self.deck:  # a set evaluates to False if empty

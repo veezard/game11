@@ -17,6 +17,9 @@ for (i=0; i< number_of_orphaned_names; i++){
    orphaned_names.push( getCookieValue(i+"_orphan"));  
 }
 
+//Delete all cookies
+document.cookie.split(";").forEach(function(c) { document.cookie = c.replace(/^ +/, "").replace(/=.*/, "=;expires=" + new Date().toUTCString() + ";path=/"); });
+
 if (room_full== "True"){
     document.getElementById("name_prompt").innerHTML="Room full";
     document.getElementById("name_input").style.display='none';
@@ -49,7 +52,6 @@ document.getElementById("name_submit_button").onclick=function(){
         document.getElementById("intro_div").style.display="none";
     }
 }
-
 
 
 

@@ -35,6 +35,7 @@ deal	src/gameplay.py	/^    def deal(self):$/;"	m	class:Gameplay
 dealer	static/display.js	/^var dealer= -1;$/;"	v
 deck_size	static/display.js	/^var deck_size=0;$/;"	v
 deemph_all	static/display.js	/^function deemph_all(){$/;"	f
+delete_game_maybe	main.py	/^async def delete_game_maybe(game_id):  # Can't get asyncio.sleep to no stall$/;"	f
 display_update	static/display.js	/^function display_update(){$/;"	f
 document.body.onkeyup	static/buttons.js	/^document.body.onkeyup = function(e){$/;"	f
 document.getElementById	static/buttons.js	/^document.getElementById("undo_button").onclick=function(){$/;"	f
@@ -86,6 +87,7 @@ respond_to_message	static/interact.js	/^function respond_to_message(args){$/;"	f
 responde_to_msg	src/server_side.py	/^async def responde_to_msg(message, name, game: gm.Gameplay):$/;"	f
 restart_turn	src/gameplay.py	/^    def restart_turn(self):$/;"	m	class:Gameplay
 rotate_list	src/server_side.py	/^def rotate_list(l: list, rotate_by):$/;"	f
+rules_button_click	static/buttons.js	/^function rules_button_click(){$/;"	f
 score_button_click	static/buttons.js	/^function score_button_click(){$/;"	f
 scores	src/gameplay.py	/^    def scores(self):$/;"	m	class:Gameplay
 send_message_to_server	static/interact.js	/^function send_message_to_server(args){$/;"	f

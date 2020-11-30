@@ -134,6 +134,21 @@ html {
   transform: translate(10pt, 10pt);
   color: black;
 }
+#rules_button{
+
+	background-color: #83b035;
+	
+	box-shadow: 1pt 2pt 3pt 2pt #56781c;
+	color: white;
+	z-index:2;
+}
+
+#rules_button:active {
+  background-color: #749c2e;
+  box-shadow: 1pt 2pt 0pt 1pt #567323;
+  transform: translate(10pt, 10pt);
+  color: black;
+}
 
 
 
@@ -330,6 +345,21 @@ background-size:contain;
 	
 }
 
+#rules_window{
+    margin: 15pt;
+    color:white;
+    font-size: 20pt;
+	position: absolute;
+	left:50pt;
+	right:50pt;
+	top:50pt;
+	bottom:50pt;
+	background-color: #20882e;
+	background-image: url("img/scribble-light.png");
+	border-radius:20pt;
+	box-shadow: 5pt 5pt 8pt #888888;
+	z-index:1 ;
+}
 
 .score_row{
 	position:absolute;
