@@ -1,23 +1,36 @@
 from aiohttp import web
+import argparse
 import asyncio
 import json
 import logging
 import src.gameplay as gm
 import src.server_side as ss
 import time
-
+import random
+import string
 
 logging.basicConfig(filename='log.log', level=logging.DEBUG)
 
 active_games = {}
+games_to_delete = []
 
-active_games['abc'] = gm.Gameplay()
+letters = string.ascii_lowercase
 
 
 async def index(request):
     with open('static/index.html', 'r') as myfile:
         data = myfile.read()
-        return web.Response(text=data, content_type='text/html')
+        response = web.Response(text=data, content_type='text/html')
+        response.set_cookie("games_open", len(active_games), max_age=30)
+        return response
+
+
+async def create_new_game(request):
+    new_game = ''.join(random.choice(letters) for i in range(20))
+    while new_game in active_games:
+        new_game = ''.join(random.choice(letters) for i in range(20))
+    active_games[new_game] = gm.Gameplay()
+    raise web.HTTPFound('/game=' + new_game)
 
 
 async def enter_game(request):
@@ -70,25 +83,16 @@ async def enter_game(request):
 
     finally:
         await ss.unregister(ws_current, name, active_games[game_id])
-        if len(active_games[game_id].players.websockets) == 0:
-            await delete_game_maybe(game_id)
 
 
-async def delete_game_maybe(game_id):  # Can't get asyncio.sleep to no stall
-    await asyncio.sleep(5)  # set to wait 5 seconds
-    if game_id in active_games and len(
-            active_games[game_id].players.websockets) == 0:
-        del active_games[game_id]
-
-
-async def init_app():
+def init_app():
     app = web.Application()
     app['websockets'] = {}
     app.on_shutdown.append(shutdown)
     app.router.add_get('/', index)
+    app.router.add_post('/', create_new_game)
     app.router.add_get('/game={game_id}', enter_game)
     app.router.add_static('/', 'static/', follow_symlinks=True)
-
     return app
 
 
@@ -98,11 +102,48 @@ async def shutdown(app):
     app['websockets'].clear()
 
 
-def main():
+async def games_cleanup_routine():
+    while True:
+        await asyncio.sleep(600)
+        games_cleanup()
+
+
+def games_cleanup():
+    for game in games_to_delete:
+        if game in active_games and (
+                len(active_games[game].players.websockets) == 0):
+            del active_games[game]
+    games_to_delete.clear()
+    for game in active_games:
+        if len(active_games[game].players.websockets) == 0:
+            games_to_delete.append(game)
+
+
+async def main(is_port: bool, destination):
+
     logging.basicConfig(level=logging.DEBUG)
     app = init_app()
-    web.run_app(app, port=6789)
+    runner = web.AppRunner(app)
+    await runner.setup()
+    if is_port:
+        site = web.TCPSite(runner, port=destination)
+    else:
+        site = web.UnixSite(runner, path=destination)
+    await site.start()
+    await games_cleanup_routine()
 
+    while True:
+        await asyncio.sleep(5)  # sleep forever
+
+parser = argparse.ArgumentParser(description="Game 11")
+parser.add_argument('--path')
+parser.add_argument('--port')
 
 if __name__ == '__main__':
-    main()
+    args = parser.parse_args()
+    if args.port:
+        asyncio.run(main(True, args.port))
+    elif args.path:
+        asyncio.run(main(False, args.path))
+    else:
+        print("Please provide a port or a path for unix socket")

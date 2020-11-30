@@ -1,14 +1,42 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<title>Game of 11</title>
+		<title>Game 11</title>
 		<link rel="stylesheet" type="text/css" href="css.css">
 		<meta charset="utf-8"/>
 	</head>
 	
 	
     <body>
-        Hello
+		<div id="table">
+            <div id="intro_div">
+                <form method="post">
+                <div id="name_prompt">Game 11</div>
+                <input type="submit" id="name_submit_button" value="Create a new game room" name="new_game">
+                </form>
+            </div>
+        </div>
+
+
+        <button id="rules_button" class="button" style="bottom:10%; left:50%; transform: translate(-30pt, 0pt);">Rules</button>
+    <script>
+document.getElementById("rules_button").onclick=rules_button_click;
+function rules_button_click(){
+	rules_div=document.getElementById("rules_window");
+	if (rules_div.style.display == "none") {
+		rules_div.style.display = "inline";
+	} else {
+		rules_div.style.display = "none";
+	}
+}
+    </script>
+        <div id="rules_window" style="display:none">
+
+                <h1>Rules</h1>
+
+                <p> Sample rule.</p>
+        </div>
+
     </body>
 	
 	

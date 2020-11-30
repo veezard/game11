@@ -10,7 +10,7 @@ function getCookieValue(a) {
 }
 
 var room_full=getCookieValue('room_full');
-var names_logged_in=getCookieValue(names_logged_in);
+var names_logged_in=getCookieValue('names_logged_in');
 var number_of_orphaned_names= getCookieValue('number_of_orphaned_names');
 var orphaned_names=[];
 for (i=0; i< number_of_orphaned_names; i++){
@@ -26,8 +26,8 @@ if (room_full== "True"){
     document.getElementById("name_submit_button").style.display='none';
 }
 
-if (names_logged_in>=3){
-    document.getElementById("name_prompt").style.display='none';
+else if (names_logged_in>=3){
+    document.getElementById("name_prompt").innerHTML= "Choose your name";
     document.getElementById("name_input").style.display='none';
     document.getElementById("name_submit_button").style.display='none';
 }
@@ -52,7 +52,6 @@ document.getElementById("name_submit_button").onclick=function(){
         document.getElementById("intro_div").style.display="none";
     }
 }
-
 
 
 function register(nm){

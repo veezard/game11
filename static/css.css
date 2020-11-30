@@ -140,7 +140,7 @@ html {
 	
 	box-shadow: 1pt 2pt 3pt 2pt #56781c;
 	color: white;
-	z-index:2;
+	z-index:6;
 }
 
 #rules_button:active {
@@ -346,6 +346,7 @@ background-size:contain;
 }
 
 #rules_window{
+    padding-left: 10pt;
     margin: 15pt;
     color:white;
     font-size: 20pt;
@@ -358,7 +359,8 @@ background-size:contain;
 	background-image: url("img/scribble-light.png");
 	border-radius:20pt;
 	box-shadow: 5pt 5pt 8pt #888888;
-	z-index:1 ;
+	z-index:5 ;
+
 }
 
 .score_row{

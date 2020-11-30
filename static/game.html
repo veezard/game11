@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<title>Game of 11</title>
+		<title>Game 11</title>
 		<link rel="stylesheet" type="text/css" href="css.css">
 		<meta charset="utf-8"/>
 	</head>
@@ -11,11 +11,12 @@
 
 		<div id="table">
             <div id="intro_div">
+                <form onsubmit="return false">
                 <div id="name_prompt">Enter your name</div>
-                <input type="text" id="name_input">
+                <input type="text" id="name_input" autofocus>
                 <input type="submit" id="name_submit_button" value="Submit">
+                </form>
                 <div id="orphaned_names_row">
-                    
                     <div class="avatar orphaned_avatar" id="orphan_0" style="left:0pt;"></div>
                     <div class="avatar orphaned_avatar" id="orphan_1" style="left:45%;"></div>
                     <div class="avatar orphaned_avatar" id="orphan_2" style="right:0pt;"></div>
