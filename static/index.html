@@ -33,8 +33,113 @@ function rules_button_click(){
         <div id="rules_window" style="display:none">
 
                 <h1>Rules</h1>
+                <h2>The Setup:</h2>
 
-                <p> Sample rule.</p>
+                -The game Eleven uses a standard 52-card deck without jokers. <br>
+                -The game starts once <b>all three players</b> sign on.<br>
+                -With each round, there is a clockwise rotation of roles between three players: <b>dealer, first player, second player.</b><br>
+                -Once each player signs on, one is arbitrarily assigned the role <b>dealer</b>.<br>
+                -In a clockwise manner, the next player is the <b>first player</b> and gets a turn first every time, until the end of the round.<br>
+                <br>
+                -Each <b>round</b> begins with a fresh deck and ends with the end of the deck.<br>
+                -Throughout each round, the dealer will deal multiple <b>hands.</b><br>
+                -At the start of each hand, the players receive four cards each.<br>
+                -Only on the first hand of the round, four cards are also dealt onto the table.<br>
+                -Starting with the first player, each player takes a <b>turn</b> until the cards run out <br>
+                -Once cards run out at the end of each hand, the dealer deals the next hand by pressing the <b>dealer button.</b><br>
+                <br>
+                -The dealer goes last at every hand until the round ends.<br>
+                -When the round ends, the points are automatically tallied.<br>
+                -After the players review the scoreboard, they can go back for the next round.<br>
+                -There may be an infinite number of rounds played.<br>
+
+
+                <h2>The Game:</h2>
+
+                The cards in each player’s hand are not yet <b>claimed.</b><br>
+                The cards on the table are not yet claimed.<br>
+                Each <b>turn</b>, the players use <b>one card</b> from the hand of four cards to play.<br>
+                The players <b>must </b> one card and no more than one card - at every <b>turn</b>.<br>
+                The players may choose which cards to use at every turn.<br>
+                <br>
+
+                There are two options for every turn:<br>
+                <br>
+                1. Use one card to claim cards from the table, also claiming the card used for this turn<br>
+                2. Place one card onto the table and not claim any cards this turn<br>
+                <br>
+
+                The players are not obligated to use any combination of moves at any given time, as long as they are otherwise following the game rules.<br>
+                Each player is obligated to use one card from her hand at every turn.<br>
+                <br>
+
+                A single card must be used from each hand for every turn.<br>
+                However, multiple cards may be picked up from the table for any turn, in accordance with the game rules.<br>
+                <br>
+
+
+                There are several ways to <b>claim</b><br>
+                <ul>
+                    <li>Claim a numerical total of eleven. Examples:</li>
+                    <ul>
+                        <li>A player uses a 4 from her hand to pick up a 7 from the table.</li>
+                        <li>A player uses a 4 from her hand to pick up a 3 and a 4 from the table.</li>
+                    </ul>
+                    <li>Use a Jack to collect <b>up to</b> all cards on the table which are <b>not</b> Kings or Queens.</li>
+                    <li>Use one King to claim only one King from the table.</li>
+                    <li>Use one Queen to claim only one Queen from the table.</li>
+                    <li>The dealer claims the remaining cards at the end of the last hand.</li>
+
+                </ul>
+
+                The card suit only matters when tallying up points, see the object below.<br>
+
+                <h2>The Buttons:</h2>
+
+                Click on a card and then click on the <b>play</b> button to play that turn.<br>
+                <b>Dealer</b> to deal the hand.<br>
+                <b>Score</b> to view the score at any time.<br>
+                <b>Rules</b> to view the rules.<br>
+                <b>Undo</b> button to undo move. This ONLY works until the next player makes any move.<br>
+                <b>Ctrl</b> +/- on PC or <b>Command</b> +/- on Mac to zoom in/out of the table for better view of decks.<br>
+                <br>
+
+                Having clicked on one card from the hand, a player can click on a different card from her hand to choose that card instead, as long as she has not clicked on the <b>play</b> button yet.<br>
+                NOTE: Once one person clicks on a card from her hand, the other players can see that card.<br>
+                <br>
+
+
+                <h2>The Hand Cards:</h2>
+                <ul>
+                    <li>JACK: claims all cards on the table that are numerically below a Jack and any Jack that is on the table. The Jack used for the hand is also claimed towards that player’s points. Note: in order to pick up the maximum number of cards on the table, a player must click on the Jack in her hand and then click on each card that the Jack can pick up from the table, and then click on the play button. If there are no cards to pick up and the player is using a Jack for the turn, she clicks on the jack in her hand and then the play button to claim just the jack.</li>
+                    <li>ACE: Ace = 1. For example A player can use an Ace that’s in her hand to pick up a 10 on the table and a 10 can be used to pick up an Ace. An Ace can be used to pick up a combination of cards that adds up to 10, to claim a total of eleven. A Jack will pick up cards as above, including any Aces on the table.</li>
+                    <li>KING: picks up one King from the table.</li>
+                    <li>QUEEN: picks up one Queen from the table.</li>
+                    <li>2-10: pick up any cards on the table that add up to eleven.</li>
+                    <li>2 of clubs: no effect on the game while played, but once claimed - counts for a whole point on its own.</li>
+                    <li>10 of diamonds: no effect on the game while played, but once claimed - counts for a whole point on its own.</li>
+                    <li>Suits: card suits make no difference while the game is played, but the player who claims the most club obtains a point in the end of the round.</li>
+                </ul>
+                <br>
+                <h2>The object:</h2>
+
+                The object of the game is to collect as many points as possible.<br>
+                <br>
+
+                There are four ways to obtain a point during each round.<br>
+                <ul>
+
+                    <li>                Claim the most total cards at the end of the deck</li>
+                    <li>Claim the most club cards at the end of the deck</li>
+                    <li>Claim the 2 of clubs</li>
+                    <li>Claim the 10 of diamonds</li>
+                </ul>
+
+
+                In the case that any number of players have an equal <b>total number of cards</b> by the termination of a round, each of those players gets a point for the round for having the highest cards. <br>
+                In the case that any number of players have an equal number of <b>club cards</b> by the termination of a round, each of those players gets a point for the round for having the highest cards. <br>
+                Therefore there may be more than 4 points total to a round.<br>
+
         </div>
 
     </body>
