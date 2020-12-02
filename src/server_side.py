@@ -205,7 +205,8 @@ async def send_refresh(name, game: gm.Gameplay):
                                                    "score": rotate_list(game.score, player_number),
                                                    "last_round_score": rotate_list(game.last_round_score, player_number),
                                                    "last_round_hands": rotate_list(game.last_round_hands, player_number),
-                                                   "can_undo": game.can_undo and next_player == game.turn_counter.turn
+                                                   "can_undo": game.can_undo and next_player == game.turn_counter.turn,
+                                                   "dealer_neeeds_to_advance": game.dealer_neeeds_to_advance
                                                    })
 
 

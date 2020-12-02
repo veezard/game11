@@ -15,7 +15,11 @@ var number_of_orphaned_names= getCookieValue('number_of_orphaned_names');
 var orphaned_names=[];
 for (i=0; i< number_of_orphaned_names; i++){
    orphaned_names.push( getCookieValue(i+"_orphan"));  
+    if (orphaned_names[i].startsWith('"') && orphaned_names[i].endsWith('"')){
+        orphaned_names[i]=orphaned_names[i].slice(1,-1);
+    }
 }
+
 
 //Delete all cookies
 document.cookie.split(";").forEach(function(c) { document.cookie = c.replace(/^ +/, "").replace(/=.*/, "=;expires=" + new Date().toUTCString() + ";path=/"); });

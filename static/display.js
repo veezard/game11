@@ -22,6 +22,7 @@ var pile_ends=[[],[],[]];
 
 var can_undo = false;
 
+var dealer_neeeds_to_advance=false;
 
 class Card {
 	constructor(suit, number){
@@ -161,6 +162,7 @@ function refresh(args){
 	last_round_score=args.last_round_score;
 	
 	can_undo=args.can_undo;
+    dealer_neeeds_to_advance=args.dealer_neeeds_to_advance;
 	
 	display_update();
 	
@@ -309,6 +311,14 @@ function display_update(){
 		document.getElementById("undo_button").style.display="none";
 	
 	}
+
+    //Pulsate dealer button if dealer needs to advance
+    if (dealer_neeeds_to_advance){
+        document.getElementById("dealer").style.animationIterationCount= "infinite";
+    }
+    else{
+        document.getElementById("dealer").style.animationIterationCount= "0";
+    }
 }
 
 function update_users(args){
@@ -369,7 +379,7 @@ function move_dealer(dealer){
 		case 0:
 			
 			document.getElementById("playerC").appendChild(dealer_dom);
-			dealer_dom.style.transform="translate(-200pt,-20pt)";
+			dealer_dom.style.transform="translate(-200pt,-110pt)";
 			
 			break;
 		case 1:

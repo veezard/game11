@@ -35,6 +35,7 @@ create_new_game	main.py	/^async def create_new_game(request):$/;"	f
 create_score_card_divs	static/display.js	/^function create_score_card_divs(){$/;"	f
 deal	src/gameplay.py	/^    def deal(self):$/;"	m	class:Gameplay
 dealer	static/display.js	/^var dealer= -1;$/;"	v
+dealer_neeeds_to_advance	static/display.js	/^var dealer_neeeds_to_advance=false;$/;"	v
 deck_size	static/display.js	/^var deck_size=0;$/;"	v
 deemph_all	static/display.js	/^function deemph_all(){$/;"	f
 display_update	static/display.js	/^function display_update(){$/;"	f

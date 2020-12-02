@@ -15,6 +15,7 @@ active_games = {}
 games_to_delete = []
 
 letters = string.ascii_lowercase
+active_games["abc"] = gm.Gameplay()
 
 
 async def index(request):
