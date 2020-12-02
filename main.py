@@ -121,7 +121,7 @@ def games_cleanup():
 
 async def main(is_port: bool, destination):
 
-    logging.basicConfig(level=logging.DEBUG)
+    logging.basicConfig(level=logging.WARNING)
     app = init_app()
     runner = web.AppRunner(app)
     await runner.setup()
