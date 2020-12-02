@@ -48,6 +48,7 @@ games_cleanup_routine	main.py	/^async def games_cleanup_routine():$/;"	f
 games_to_delete	main.py	/^games_to_delete = []$/;"	v
 getCookieValue	static/interact.js	/^function getCookieValue(a) {$/;"	f
 get_websocket_by_number	src/gameplay.py	/^    def get_websocket_by_number(self, player_number):$/;"	m	class:Players
+gtag	static/index.html	/^          function gtag(){dataLayer.push(arguments);}$/;"	f
 i	static/interact.js	/^var i,j;$/;"	v
 index	main.py	/^async def index(request):$/;"	f
 init_app	main.py	/^def init_app():$/;"	f
