@@ -57,6 +57,7 @@ initialize	src/gameplay.py	/^    def initialize(self):$/;"	m	class:Gameplay
 l_cards	static/display.js	/^var l_cards = [null,null,null,null];$/;"	v
 letters	main.py	/^letters = string.ascii_lowercase$/;"	v
 main	main.py	/^async def main(is_port: bool, destination):$/;"	f
+makeid	static/index.html	/^        function makeid(length) {$/;"	f
 move_dealer	static/display.js	/^function move_dealer(dealer){$/;"	f
 move_spotlight	static/display.js	/^function move_spotlight(user){$/;"	f
 move_table_to_dealer	src/gameplay.py	/^    def move_table_to_dealer(self):$/;"	m	class:Gameplay
